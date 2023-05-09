@@ -6,9 +6,9 @@ export interface GameState {
 
 export type Square = " " | "X" | "O";
 
-type BoardArray = [Square, Square, Square, Square, Square, Square, Square, Square, Square];
+export type BoardArray = [Square, Square, Square, Square, Square, Square, Square, Square, Square];
 
-type Player = "X" | "O";
+export type Player = "X" | "O";
 
 export interface RootState {
   game: GameState;
