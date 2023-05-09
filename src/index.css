@@ -4,12 +4,18 @@
   flex-direction: column;
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
 .square {
   border: 0.5px black solid;
   background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 2rem;
   height: 2rem;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
+  font-size: 2rem;
 }
