@@ -1,19 +1,22 @@
-// src/reducer.ts
 import { createSlice } from "@reduxjs/toolkit";
-import { MyState } from "./interfaces";
+import { GameState } from "./interfaces";
 
-
-const initialState: MyState = {
-  // Initialize your state here
+const initialState: GameState = {
+  board: [ " ", " ", " ", " ", " ", " ", " ", " ", " "],
+  nextPlayer: "X"
 };
 
 const mySlice = createSlice({
-  name: "my",
+  name: "game",
   initialState,
   reducers: {
-    // Define your reducers here
+    updateBoard: (state,  action) => {
+      const { index } = action.payload;
+      state.board[index] = state.nextPlayer;
+      state.nextPlayer = state.nextPlayer === "O" ? "X" : "O";
+    }
   },
 });
 
-export const { /* Export your actions here */ } = mySlice.actions;
+export const { updateBoard } = mySlice.actions;
 export default mySlice.reducer;
