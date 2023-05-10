@@ -15,7 +15,32 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2rem;
-  height: 2rem;
-  font-size: 2rem;
+  width: 3rem;
+  height: 3rem;
+  font-size: 3rem;
+}
+
+.win-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.winner-text {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.credits {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.new-game-button {
+  justify-self: center;
 }

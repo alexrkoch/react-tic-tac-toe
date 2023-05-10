@@ -36,9 +36,14 @@ const mySlice = createSlice({
       state.board[index] = state.nextPlayer;
       state.winner = determineWinner(state.board);
       state.nextPlayer = state.nextPlayer === "O" ? "X" : "O";
+    },
+    resetBoard: (state) => {
+      state.board = initialState.board;
+      state.nextPlayer = initialState.nextPlayer;
+      state.winner = initialState.winner;
     }
   },
 });
 
-export const { updateBoard } = mySlice.actions;
+export const { updateBoard, resetBoard } = mySlice.actions;
 export default mySlice.reducer;
