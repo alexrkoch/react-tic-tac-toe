@@ -1,14 +1,16 @@
+export type Player = "X" | "O";
+
+export type Square = Player | " ";
+
+export type Winner = Player | "in-progress";
+
+export type BoardArray = [Square, Square, Square, Square, Square, Square, Square, Square, Square];
 
 export interface GameState {
   board: BoardArray;
   nextPlayer: Player;
+  winner: Winner;
 }
-
-export type Square = " " | "X" | "O";
-
-export type BoardArray = [Square, Square, Square, Square, Square, Square, Square, Square, Square];
-
-export type Player = "X" | "O";
 
 export interface RootState {
   game: GameState;
