@@ -1,10 +1,18 @@
 import express, { Request, Response } from 'express';
 import http from 'http';
 import { Server, Socket } from 'socket.io';
+import cors from 'cors';
+
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+app.use(cors());
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
 
 app.use(express.static('public'));
 
@@ -19,9 +27,9 @@ io.on('connection', (socket: Socket) => {
     console.log(`user disconnected: ${socket.id}`);
   });
 
-  socket.on('move', (data: any) => {
-    console.log('move: ' + data);
-    io.emit('move', data);
+  socket.on('message', (data: any) => {
+    console.log('message: ' + data);
+    io.emit('message', data);
   });
 });
 

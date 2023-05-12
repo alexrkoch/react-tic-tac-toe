@@ -1,8 +1,9 @@
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { RootState } from "./interfaces";
-import { resetBoard } from "./reducer";
+import { RootState } from "../interfaces/interfaces";
+import { resetBoard } from "../state/reducer";
 import Board from "./Board";
+
 
 function App() {
   const dispatch = useDispatch();

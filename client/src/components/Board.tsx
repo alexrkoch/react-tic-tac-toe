@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { RootState } from "./interfaces";
+import { RootState } from "../interfaces/interfaces";
 import Square from "./Square";
 
 function Board() {
