@@ -35,10 +35,6 @@ function App() {
       <h1>Tic Tac Toe</h1>
       {handleNextGame()}
       <Board></Board>
-      <div className="credits">
-        <strong>Developed By Alex Koch</strong>
-        <p>Tech: React, Typescript, and Redux</p>
-      </div>
     </div>
   );
 }
