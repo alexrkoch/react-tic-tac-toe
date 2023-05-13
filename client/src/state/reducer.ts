@@ -1,8 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { GameState, BoardArray, Winner } from "../interfaces/interfaces";
-import { io, Socket } from 'socket.io-client';
-
-const socket: Socket = io('http://localhost:3001');
 
 const initialState: GameState = {
   board: [" ", " ", " ", " ", " ", " ", " ", " ", " "],
@@ -39,7 +36,6 @@ const mySlice = createSlice({
       state.board[index] = state.nextPlayer;
       state.winner = determineWinner(state.board);
       state.nextPlayer = state.nextPlayer === "O" ? "X" : "O";
-      socket.emit("test-updateBoard");
     },
     resetBoard: (state) => {
       state.board = initialState.board;

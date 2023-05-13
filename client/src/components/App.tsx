@@ -1,12 +1,23 @@
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { RootState } from "../interfaces/interfaces";
-import { resetBoard } from "../state/reducer";
+import { resetBoard, updateBoard } from "../state/reducer";
 import Board from "./Board";
-
+import socket from "../socket/socket";
 
 function App() {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    socket.on("message", (index) => {
+      // dispatch(updateBoard({ index }));
+      console.log(index);
+    });
+    return () => {
+      socket.off("message");
+    };
+  }, []);
 
   const handleClick = () => {
     dispatch(resetBoard());
@@ -34,8 +45,8 @@ function App() {
   return (
     <div className="app">
       <h1>Tic Tac Toe</h1>
-      {handleNextGame()}
       <Board></Board>
+      {handleNextGame()}
     </div>
   );
 }

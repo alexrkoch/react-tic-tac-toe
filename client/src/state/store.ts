@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import gameReducer from "./reducer";
-import { RootState } from "../interfaces/interfaces";
+import socketMiddleware from "../socket/socketMiddleware";
 
-const store = configureStore<RootState>({
+const store = configureStore({
   reducer: {
-    game: gameReducer
-  }
+    game: gameReducer,
+  },
+  middleware: (getDefaultMiddleware) => [
+    ...getDefaultMiddleware({ thunk: true }),
+    socketMiddleware,
+  ],
 });
 
 export default store;
