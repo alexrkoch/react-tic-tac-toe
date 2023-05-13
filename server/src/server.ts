@@ -1,8 +1,7 @@
-import express, { Request, Response } from 'express';
-import http from 'http';
-import { Server, Socket } from 'socket.io';
-import cors from 'cors';
-
+import express, { Request, Response } from "express";
+import http from "http";
+import { Server, Socket } from "socket.io";
+import cors from "cors";
 
 const app = express();
 const server = http.createServer(app);
@@ -16,22 +15,28 @@ const io = new Server(server, {
   },
 });
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
-app.get('/', (req: Request, res: Response) => {
-  res.sendFile(__dirname + '/index.html');
+app.get("/", (req: Request, res: Response) => {
+  res.sendFile(__dirname + "/index.html");
 });
 
-io.on('connection', (socket: Socket) => {
-  console.log(`user connected: ${socket.id}` );
+io.on("connection", (socket: Socket) => {
+  console.log(`user connected: ${socket.id}`);
 
-  socket.on('disconnect', () => {
+  socket.on("disconnect", () => {
     console.log(`user disconnected: ${socket.id}`);
   });
 
-  socket.on('message', (data: any) => {
-    console.log('message: ' + data);
-    io.emit('message', data);
+  socket.on("joinRoom", (room) => {
+    socket.join(room);
+    console.log(`user ${socket.id} joined ${room}`);
+  });
+
+  socket.on("makeMove", (data) => {
+    const { room, move } = data;
+    socket.to(room).emit("moveMade", move);
+    console.log(`user ${socket.id} posted move ${move} to room ${room}`);
   });
 });
 

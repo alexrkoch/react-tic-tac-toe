@@ -3,8 +3,9 @@ import { GameState, BoardArray, Winner } from "../interfaces/interfaces";
 
 const initialState: GameState = {
   board: [" ", " ", " ", " ", " ", " ", " ", " ", " "],
-  nextPlayer: "X",
+  nextMove: "X",
   winner: "in-progress",
+  yourRole: " ",
 };
 
 const determineWinner = (board: BoardArray): Winner => {
@@ -31,19 +32,30 @@ const mySlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    updateBoard: (state, action) => {
+    selectRole: (state, action) => {
+      const { role } = action.payload;
+      state.yourRole = role;
+      state.opponentRole = role === "O" ? "X" : "O";
+    },
+    makeMove: (state, action) => {
       const { index } = action.payload;
-      state.board[index] = state.nextPlayer;
+      state.board[index] = state.nextMove;
       state.winner = determineWinner(state.board);
-      state.nextPlayer = state.nextPlayer === "O" ? "X" : "O";
+      state.nextMove = state.nextMove === "O" ? "X" : "O";
+    },
+    moveMade: (state, action) => {
+      const { index } = action.payload;
+      state.board[index] = state.nextMove;
+      state.winner = determineWinner(state.board);
+      state.nextMove = state.nextMove === "O" ? "X" : "O";
     },
     resetBoard: (state) => {
       state.board = initialState.board;
-      state.nextPlayer = initialState.nextPlayer;
+      state.nextMove = initialState.nextMove;
       state.winner = initialState.winner;
     },
   },
 });
 
-export const { updateBoard, resetBoard } = mySlice.actions;
+export const { makeMove, resetBoard, selectRole, moveMade } = mySlice.actions;
 export default mySlice.reducer;

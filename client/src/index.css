@@ -36,3 +36,10 @@
 .new-game-button {
   justify-self: center;
 }
+
+.choose-role {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 1rem;
+}

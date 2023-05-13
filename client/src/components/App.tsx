@@ -2,30 +2,54 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { RootState } from "../interfaces/interfaces";
-import { resetBoard, updateBoard } from "../state/reducer";
+import { resetBoard, makeMove, selectRole, moveMade } from "../state/reducer";
 import Board from "./Board";
-import socket from "../socket/socket";
+import socket, { MOVE_MADE } from "../socket/socket";
+
+// before showing the board, offer player selection buttons
+// make the web socket connection to join a room once selected.
 
 function App() {
   const dispatch = useDispatch();
 
+  const thisPlayer = useSelector((state: RootState) => state.game.yourRole);
+  const nextPlayer = useSelector((state: RootState) => state.game.nextMove);
+  const winner = useSelector((state: RootState) => state.game.winner);
+
   useEffect(() => {
-    socket.on("message", (index) => {
-      // dispatch(updateBoard({ index }));
+    socket.on(MOVE_MADE, (index) => {
+      dispatch(moveMade({index}))
       console.log(index);
     });
     return () => {
-      socket.off("message");
+      // TO DO: figure out if this argument matters
+      socket.off("disconnect");
     };
   }, []);
 
-  const handleClick = () => {
+  const chooseRole = (role: string) => {
+    dispatch(selectRole({role}));
+  };
+
+  const clickNewGame = () => {
     dispatch(resetBoard());
   };
 
-  const nextPlayer = useSelector((state: RootState) => state.game.nextPlayer);
-
-  const winner = useSelector((state: RootState) => state.game.winner);
+  const roleSelectionOrBoard = () => {
+    if (thisPlayer === " ") {
+      return (
+        <div>
+          <h2>Please select your role:</h2>
+          <div className="choose-role">
+            <button onClick={() => chooseRole("X")}>X</button>
+            <button onClick={() => chooseRole("O")}>O</button>
+          </div>
+        </div>
+      );
+    } else {
+      return <Board></Board>;
+    }
+  };
 
   const handleNextGame = () => {
     if (winner === "in-progress") {
@@ -34,7 +58,7 @@ function App() {
       return (
         <div className="win-section">
           <h2 className="winner-text">{winner} IS THE WINNER!</h2>
-          <button className="new-game-button" onClick={handleClick}>
+          <button className="new-game-button" onClick={clickNewGame}>
             New Game
           </button>
         </div>
@@ -45,7 +69,7 @@ function App() {
   return (
     <div className="app">
       <h1>Tic Tac Toe</h1>
-      <Board></Board>
+      {roleSelectionOrBoard()}
       {handleNextGame()}
     </div>
   );
