@@ -41,8 +41,8 @@ function App() {
         <div>
           <h2>Please select your role:</h2>
           <div className="choose-role">
-            <button onClick={() => chooseRole("X")}>X</button>
-            <button onClick={() => chooseRole("O")}>O</button>
+            <button className="role-button" onClick={() => chooseRole("X")}>X</button>
+            <button className="role-button" onClick={() => chooseRole("O")}>O</button>
           </div>
         </div>
       );
