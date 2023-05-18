@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, SquareProps } from "../interfaces/interfaces";
 import { makeMove } from "../state/reducer";
 
-function Square({ value, index }: SquareProps) {
+function Square({ value, row, column }: SquareProps) {
   const dispatch = useDispatch();
 
   const winner = useSelector((state: RootState) => state.game.winner);
@@ -11,7 +11,7 @@ function Square({ value, index }: SquareProps) {
 
   const handleClick = () => {
     const room = opponent;
-    dispatch(makeMove({ room, index }));
+    dispatch(makeMove({ room, row, column }));
   };
 
   return (

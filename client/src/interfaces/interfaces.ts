@@ -7,15 +7,9 @@ export type ThisPlayer = Player | " ";
 export type Winner = Player | "in-progress";
 
 export type BoardArray = [
-  Square,
-  Square,
-  Square,
-  Square,
-  Square,
-  Square,
-  Square,
-  Square,
-  Square
+  [Square, Square, Square],
+  [Square, Square, Square],
+  [Square, Square, Square]
 ];
 
 export interface GameState {
@@ -32,5 +26,6 @@ export interface RootState {
 
 export interface SquareProps {
   value: Square;
-  index: number;
+  row: number;
+  column: number;
 }
