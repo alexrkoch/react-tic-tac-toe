@@ -11,7 +11,8 @@ const socketMiddleware: Middleware<{}, RootState> =
       case makeMove.type:
         const move = { 
           room: action.payload.room, 
-          move: action.payload.index 
+          row: action.payload.row,
+          column: action.payload.column 
         };
         socket.emit(MAKE_MOVE, move);
         break;

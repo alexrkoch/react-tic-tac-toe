@@ -17,9 +17,9 @@ function App() {
   const winner = useSelector((state: RootState) => state.game.winner);
 
   useEffect(() => {
-    socket.on(MOVE_MADE, (index) => {
-      dispatch(moveMade({index}))
-      console.log(index);
+    socket.on(MOVE_MADE, ({ row, column }) => {
+      dispatch(moveMade({ row, column }));
+      console.log("row recieved", row, " | column recieved", column);
     });
     return () => {
       // TO DO: figure out if this argument matters
@@ -28,7 +28,7 @@ function App() {
   }, []);
 
   const chooseRole = (role: string) => {
-    dispatch(selectRole({role}));
+    dispatch(selectRole({ role }));
   };
 
   const clickNewGame = () => {
@@ -41,13 +41,26 @@ function App() {
         <div>
           <h2>Please select your role:</h2>
           <div className="choose-role">
-            <button className="role-button" onClick={() => chooseRole("X")}>X</button>
-            <button className="role-button" onClick={() => chooseRole("O")}>O</button>
+            <button className="role-button" onClick={() => chooseRole("X")}>
+              X
+            </button>
+            <button className="role-button" onClick={() => chooseRole("O")}>
+              O
+            </button>
           </div>
         </div>
       );
     } else {
-      return <Board></Board>;
+      return (
+        <div className="center-column">
+          <div className="center-column">
+            <h2>You are player {thisPlayer}</h2>
+          </div>
+          <div>
+            <Board></Board>
+          </div>
+        </div>
+      );
     }
   };
 
@@ -67,7 +80,7 @@ function App() {
   };
 
   return (
-    <div className="app">
+    <div className="center-column">
       <h1>Tic Tac Toe</h1>
       {roleSelectionOrBoard()}
       {handleNextGame()}

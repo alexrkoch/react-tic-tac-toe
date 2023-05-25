@@ -18,30 +18,25 @@ const initialState: GameState = {
 };
 
 const determineWinner = (board: BoardArray, playerMoved: Player, row: number, column: number): Winner => {
-  const checkRow: string = "".concat(...board[row]);
-  const checkColumn: string = "".concat(...board.map((row) => row[column]));
-  const checkPlayer: string = playerMoved + playerMoved + playerMoved;
-  const winLength: number = board[0].length;
-  const centerSquare: number = Math.floor(winLength / 2);
-  const diagonalWinPossible: boolean = winLength % 2 === 1;
-  if (checkRow.includes(checkPlayer) || checkColumn.includes(checkPlayer)) {
+  const columns = [];
+  const firstDiagonal = [];
+  const secondDiagonal = [];
+  const boardLength = board[0].length;
+  for (let i = 0; i < boardLength; i++) {
+    columns.push(board[i][column]);
+    firstDiagonal.push(board[i][i]);
+    secondDiagonal.push(board[i][boardLength - 1 - i]);
+  }
+  const rowCheck = board[row].every((square) => square === playerMoved);
+  const columnCheck = columns.every((square) => square === playerMoved);
+  const firstDiagonalCheck = firstDiagonal.every(
+    (square) => square === playerMoved
+  );
+  const secondDiagonalCheck = secondDiagonal.every(
+    (square) => square === playerMoved
+  );
+  if (rowCheck || columnCheck || firstDiagonalCheck || secondDiagonalCheck) {
     return playerMoved;
-  } else if (diagonalWinPossible) {
-    // if board dimensions > 3x3, need to make these diagonal strings more dynamic.
-    const firstDiagonal =
-      board[0][0] +
-      board[centerSquare][centerSquare] +
-      board[winLength - 1][winLength - 1];
-    const secondDiagonal =
-      board[0][winLength - 1] +
-      board[centerSquare][centerSquare] +
-      board[winLength - 1][0];
-    if (
-      firstDiagonal.includes(checkPlayer) ||
-      secondDiagonal.includes(checkPlayer)
-    ) {
-      return playerMoved;
-    }
   }
   return "in-progress";
 };

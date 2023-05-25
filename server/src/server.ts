@@ -34,9 +34,10 @@ io.on("connection", (socket: Socket) => {
   });
 
   socket.on("makeMove", (data) => {
-    const { room, move } = data;
+    const { room, row, column } = data;
+    const move = {row, column};
     socket.to(room).emit("moveMade", move);
-    console.log(`user ${socket.id} posted move ${move} to room ${room}`);
+    console.log(`user ${socket.id} posted move ${row}, ${column} to room ${room}`);
   });
 });
 
